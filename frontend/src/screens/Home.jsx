@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const { user } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [projectName, setProjectName] = useState(""); // initialized as empty string
-  const [projects, setProjects] = useState([]); // renamed to plural for clarity
+  const [projectName, setProjectName] = useState("");
+  const [projects, setProjects] = useState([]);
 
   const navigate = useNavigate();
 
-  // Create project and update state optimistically
+  // Create project
   const createProject = (e) => {
     e.preventDefault();
     if (!projectName.trim()) return;
@@ -20,62 +20,60 @@ const Home = () => {
       .post("/projects/create", { name: projectName })
       .then((res) => {
         const newProject = res.data.project;
-        if (newProject) setProjects((prev) => [...prev, newProject]); // add new project
-        setProjectName(""); // reset input
-        setIsModalOpen(false); // close modal
+        if (newProject) setProjects((prev) => [...prev, newProject]);
+        setProjectName("");
+        setIsModalOpen(false);
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  // Fetch all projects on mount
+  // Fetch projects
   useEffect(() => {
     axios
       .get("/projects/all")
       .then((res) => {
-        setProjects(res.data.projects || []); // default to empty array
+        setProjects(res.data.projects || []);
       })
       .catch((err) => {
         console.error(err);
-        setProjects([]); // ensure state is array
+        setProjects([]);
       });
   }, []);
 
   return (
     <main className="p-4">
-      <div className="projects flex flex-wrap gap-3">
+      {/* Projects Grid */}
+      <div className="projects grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="project p-4 border border-slate-300 rounded-md"
+          className="project w-full p-4 border border-slate-300 rounded-md text-center hover:bg-slate-100"
         >
-          New Project
-          <i className="ri-link ml-2"></i>
+          New Project <i className="ri-link ml-2"></i>
         </button>
 
         {projects.map((project) => (
           <div
             key={project._id}
             onClick={() => navigate(`/project`, { state: { project } })}
-            className="project flex flex-col gap-2 cursor-pointer p-4 border border-slate-300 rounded-md min-w-52 hover:bg-slate-200"
+            className="project w-full sm:w-auto flex flex-col gap-2 cursor-pointer p-4 border border-slate-300 rounded-md hover:bg-slate-200"
           >
             <h2 className="font-semibold">{project.name}</h2>
-            <div className="flex gap-2">
-              <p>
-                <small>
-                  <i className="ri-user-line"></i> Collaborators
-                </small>
-                :
+            <div className="flex gap-2 text-sm">
+              <p className="flex items-center gap-1">
+                <i className="ri-user-line"></i> Collaborators:
               </p>
-              {project?.users?.length || 0} {/* safely render users count */}
+              {project?.users?.length || 0}
             </div>
           </div>
         ))}
       </div>
 
+      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-md shadow-md w-1/3">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-2">
+          <div className="bg-white p-6 rounded-md shadow-md w-11/12 sm:w-2/3 md:w-1/3">
             <h2 className="text-xl mb-4">Create New Project</h2>
             <form onSubmit={createProject}>
               <div className="mb-4">
@@ -90,10 +88,10 @@ const Home = () => {
                   required
                 />
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-2 flex-wrap">
                 <button
                   type="button"
-                  className="mr-2 px-4 py-2 bg-gray-300 rounded-md"
+                  className="px-4 py-2 bg-gray-300 rounded-md"
                   onClick={() => setIsModalOpen(false)}
                 >
                   Cancel
