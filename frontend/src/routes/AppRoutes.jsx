@@ -5,6 +5,7 @@ import Register from "../screens/Register";
 import Home from "../screens/Home";
 import Project from "../screens/Project";
 import LandingPage from "../screens/LandingPage";
+import NotFound from "../screens/NotFound";
 import UserAuth from "../auth/UserAuth";
 
 const AppRoutes = () => {
@@ -30,6 +31,7 @@ const AppRoutes = () => {
             </UserAuth>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
