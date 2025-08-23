@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6EE7F9"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="spark" x1="160" y1="80" x2="352" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#bg)"/>
+
+  <!-- Chat bubble with soft shadow -->
+  <g filter="url(#softShadow)">
+    <!-- main bubble -->
+    <rect x="96" y="120" width="320" height="224" rx="48" fill="white"/>
+    <!-- tail -->
+    <path d="M176 340 L168 408 L232 356" fill="white"/>
+  </g>
+
+  <!-- AI 'spark' star in the corner -->
+  <g transform="translate(320,120)">
+    <path d="M32 0 L40 24 L64 32 L40 40 L32 64 L24 40 L0 32 L24 24 Z" fill="url(#spark)"/>
+  </g>
+
+  <!-- Typing dots -->
+  <g opacity="0.85">
+    <circle cx="192" cy="232" r="16" fill="#CBD5E1"/>
+    <circle cx="256" cy="232" r="16" fill="#94A3B8"/>
+    <circle cx="320" cy="232" r="16" fill="#64748B"/>
+  </g>
+
+  <!-- Subtle highlight on background -->
+  <ellipse cx="176" cy="104" rx="96" ry="36" fill="white" opacity="0.18"/>
+</svg>
